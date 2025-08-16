@@ -1,0 +1,360 @@
+
+// メディアクエリ-----------------------------------
+$breakpoints: (
+  //キー　　値
+  "s": "screen and (max-width: 699px)",
+  "m": "(min-width: 700px) and (max-width: 899px)",
+  "l": "(min-width: 900px) and (max-width: 1279px)",
+  "xl": "screen and (min-width: 1280px)"
+) !default;
+
+@mixin mq($breakpoint: sp) {
+  @media #{map-get($breakpoints, $breakpoint)} {
+    @content;
+  }
+}
+
+// btn----------------------------------------------
+.btn {
+  font-family: Noto Sans JP;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: calc(18 / 18);
+  letter-spacing: 0em;
+  color: #ffffff;
+  background-color: #64629d;
+  box-shadow: 0px 4px 6px 0px #0000003d;
+  width: 100%;
+  max-width: 300px;
+  height: 58px;
+  border-radius: 29px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  &.download {
+    color: #64629d;
+    background-color: #ffffff;
+    border: 2px solid #64629d;
+    transition: color 0.3s, background-color 0.3s, border 0.3s;
+    &:hover{
+      color: #ffffff;
+      background-color: #64629d;
+      border: none;
+    }
+  }
+  @include mq(m) {
+  }
+  @include mq(l) {
+    width: 250px;
+    height: 54px;
+    font-family: Noto Sans JP;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 18px;
+    line-height: calc(18 / 18);
+    letter-spacing: 0em;
+  }
+  @include mq(xl) {
+    width: 250px;
+    height: 54px;
+    font-family: Noto Sans JP;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 18px;
+    line-height: calc(18 / 18);
+    letter-spacing: 0em;
+  }
+}
+
+.drawer {
+  .btn {
+    height: 58px;
+    max-width: min(300px, 80%);
+    transition: color 0.3s, background-color 0.3s, border 0.3s;
+    &:hover{
+      color: #64629d;
+      background-color: #ffffff;
+      border: 2px solid #64629d;
+    }
+    &.download {
+      color: #64629d;
+      background-color: #ffffff;
+      border: 2px solid #64629d;
+      transition: color 0.3s, background-color 0.3s, border 0.3s;
+      &:hover{
+        color: #ffffff;
+        background-color: #64629d;
+        border: none;
+      }
+    }
+  }
+}
+
+.fv {
+  .btn {
+    transition: color 0.3s, background-color 0.3s, border 0.3s;
+    @include mq(m) {
+      margin-left: 0;
+      margin-right: 0;
+    }
+    @include mq(l) {
+      width: 200px;
+      font-size: 16px;
+    }
+    &:hover{
+      color: #64629d;
+      background-color: #ffffff;
+      border: 2px solid #64629d;
+    }
+    &.download{
+      &:hover{
+        color: #ffffff;
+        background-color: #64629d;
+        border: none;
+      }
+    }
+  }
+}
+
+.about {
+  .btn {
+    transition: transform 0.3s;
+    @include mq(l) {
+      max-width: 400px;
+      font-size: 24px;
+      line-height: calc(24 / 24);
+      width: 400px;
+      height: 70px;
+      border-radius: 50px;
+    }
+    @include mq(xl) {
+      max-width: 400px;
+      font-size: 24px;
+      line-height: calc(24 / 24);
+      width: 400px;
+      height: 70px;
+      border-radius: 50px;
+    }
+    &:hover {
+      transform: translateY(-8px);
+    }
+  }
+}
+
+.cta {
+  .btn {
+    transition: transform 0.3s;
+    @include mq(l) {
+      max-width: 400px;
+      width: 400px;
+      height: 70px;
+      border-radius: 50px;
+      font-size: 24px;
+      font-weight: 700;
+      line-height: calc(24 / 24);
+      letter-spacing: 0.02em;
+    }
+    @include mq(xl) {
+      max-width: 400px;
+      width: 400px;
+      height: 70px;
+      border-radius: 50px;
+      font-size: 24px;
+      font-weight: 700;
+      line-height: calc(24 / 24);
+      letter-spacing: 0.02em;
+    }
+    &:hover {
+      transform: translateY(-8px);
+    }
+  }
+}
+
+.price {
+  .btn {
+    max-width: 166px;
+    height: 42px;
+    font-family: Noto Sans JP;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: center;
+    border: 2px solid #2d2d32;
+    color: #2d2d32;
+    background-color: #fff;
+    flex-shrink: 0;
+    box-shadow: none;
+    transition: color 0.3s, background-color 0.3s, border-color 0.3s;
+    &:hover {
+      color: #ffffff;
+      background-color: #2d2d32;
+      border-color: #fff;
+    }
+    @include mq(l) {
+      max-width: 234px;
+      height: 50px;
+      font-size: 18px;
+      line-height: 18px;
+    }
+    @include mq(xl) {
+      max-width: 234px;
+      height: 50px;
+      font-size: 18px;
+      line-height: 18px;
+    }
+
+    &.btn2 {
+      color: #fff;
+      border-color: #fff;
+      background-color: #64629d;
+      &:hover {
+        color: #64629d;
+        border-color: #64629d;
+        background-color: #ffffff;
+      }
+    }
+  }
+  .price-contents-bottom {
+    .btn {
+      margin-left: 0;
+      margin-right: 0;
+      &:hover{
+        border-color: #2d2d32;
+        &.btn2{
+            border-color: #64629d;
+        }
+      }
+      &.btn2 {
+        @include mq(l) {
+          margin-left: 1px;
+        }
+        @include mq(xl) {
+          margin-left: 1px;
+        }
+      }
+    }
+  }
+}
+// only-----------------------------------------
+.only-s-m {
+  @include mq(l) {
+    display: none;
+  }
+  @include mq(xl) {
+    display: none;
+  }
+}
+.only-l-xl {
+  display: none;
+  @include mq(l) {
+    display: block;
+  }
+  @include mq(xl) {
+    display: block;
+  }
+}
+.only-s{
+  @include mq(m) {
+    display: none;
+  }
+  @include mq(l) {
+    display: none;
+  }
+  @include mq(xl) {
+    display: none;
+  }
+}
+.only-xl {
+  @include mq(s) {
+    display: none;
+  }
+  @include mq(m) {
+    display: none;
+  }
+  @include mq(l) {
+    display: none;
+  }
+}
+
+// title----------------------------------------
+.title {
+  &-en {
+    display: block;
+    font-family: Jost;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: calc(22 / 22);
+    letter-spacing: 0em;
+    text-align: center;
+    color: #9f9ec1;
+    margin-bottom: 12px;
+    @include mq(l) {
+      font-size: 32px;
+      margin-bottom: 18px;
+    }
+    @include mq(xl) {
+      font-size: 36px;
+      margin-bottom: 18px;
+    }
+  }
+  &-ja {
+    font-family: Noto Sans JP;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: calc(42 / 30);
+    letter-spacing: 0.05em;
+    text-indent: 0.05em;
+    text-align: center;
+    color: #64629d;
+    @include mq(l) {
+      font-size: 44px;
+      font-weight: 700;
+      line-height: 1;
+    }
+    @include mq(xl) {
+      font-size: 48px;
+      font-weight: 700;
+      line-height: 1;
+    }
+  }
+}
+
+.users {
+  .title {
+    .title-ja {
+      line-height: 1;
+    }
+  }
+}
+
+.flow {
+  .title {
+    .title-ja {
+      line-height: 1;
+    }
+  }
+}
+
+.price {
+  .title {
+    .title-ja {
+      line-height: 1;
+    }
+  }
+}
+
+.QA {
+  .title {
+    .title-ja {
+      line-height: 1;
+    }
+  }
+}
+
+// no-scroll--------------------------------------
+.no-scroll {
+  overflow: hidden;
+}

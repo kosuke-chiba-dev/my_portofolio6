@@ -1,0 +1,1867 @@
+@use "common";
+// メディアクエリ-----------------------------------
+$breakpoints: (
+  //キー　　値
+  "s": "screen and (max-width: 699px)",
+  "m": "(min-width: 700px) and (max-width: 899px)",
+  "l": "(min-width: 900px) and (max-width: 1279px)",
+  "xl": "screen and (min-width: 1280px)"
+) !default;
+
+@mixin mq($breakpoint: sp) {
+  @media #{map-get($breakpoints, $breakpoint)} {
+    @content;
+  }
+}
+
+// header----------------------------------------------------
+.header {
+  background-color: #ffffff;
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 52px;
+  position: relative;
+  z-index: 950;
+  @include mq(l) {
+    height: 72px;
+  }
+  @include mq(xl) {
+    height: 72px;
+    padding-left: 120px;
+    padding-right: 133px;
+  }
+  .inner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    .header-logo {
+      width: 71px;
+      height: 24px;
+      margin-right: auto;
+      @include mq(xl) {
+        width: 83px;
+        height: 28px;
+      }
+      img {
+        width: 100%;
+        height: 100%;
+        -o-object-fit: contain;
+        object-fit: contain;
+      }
+    }
+    .header-nav {
+      align-items: center;
+      gap: 16px;
+      display: none;
+      @include mq(l) {
+        display: flex;
+      }
+      @include mq(xl) {
+        display: flex;
+      }
+      .header-nav-link {
+        font-family: Noto Sans JP;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 14px;
+        letter-spacing: 0.03em;
+        color: #2d2d32;
+        position: relative;
+        &::after {
+          content: "";
+          width: 80%;
+          height: 1.35px;
+          background-color: #64629d;
+          position: absolute;
+          bottom: -8.1px;
+          left: 50%;
+          transform: translateX(-50%);
+          opacity: 0;
+          transition: opacity 0.3s;
+        }
+        &:hover {
+          &::after {
+            opacity: 1;
+          }
+        }
+      }
+    }
+    .header-btn {
+      display: none;
+      margin-left: 14px;
+      font-family: Noto Sans JP;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 16px;
+      letter-spacing: 0em;
+      color: #ffffff;
+      width: 180px;
+      height: 40px;
+      border-radius: 25px;
+      justify-content: center;
+      align-items: center;
+      background-color: #64629d;
+      transition: color 0.3s, background-color 0.3s, border 0.3s;
+      @include mq(l) {
+        display: flex;
+      }
+      @include mq(xl) {
+        display: flex;
+      }
+      &:hover {
+        color: #64629d;
+        background-color: #ffffff;
+        border: 2px solid #64629d;
+      }
+    }
+    .hamburger-container {
+      margin-top: 14px;
+      position: relative;
+      @include mq(l) {
+        display: none;
+      }
+      @include mq(xl) {
+        display: none;
+      }
+      &::after {
+        content: "MENU";
+        font-family: Noto Sans JP;
+        font-size: 6px;
+        font-weight: 700;
+        line-height: calc(6 / 6);
+        letter-spacing: 0.02em;
+        color: #64629d;
+        position: absolute;
+        top: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      &.active {
+        margin-top: 0;
+        &::after {
+          display: none;
+        }
+      }
+      .hamburger {
+        width: 21px;
+        height: 21px;
+        position: relative;
+        .hamburger-bar {
+          width: 100%;
+          height: 3px;
+          background-color: #64629d;
+          position: absolute;
+          transition: transform 0.3s;
+          &:first-child {
+            top: 0;
+          }
+          &:nth-child(2) {
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            width: 13px;
+          }
+          &:last-child {
+            bottom: 0;
+          }
+        }
+        &.active {
+          width: 18px;
+          height: 18px;
+          position: absolute;
+          top: 50%;
+          right: 0px;
+          transform: translateY(-50%);
+          .hamburger-bar {
+            width: 25px;
+            &:first-child {
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%) rotate(-45deg);
+            }
+            &:nth-child(2) {
+              display: none;
+            }
+            &:last-child {
+              bottom: auto;
+              left: 50%;
+              transform: translate(-50%, -50%) rotate(45deg);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+// drawer--------------------------------------
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #edecfc;
+  z-index: 900;
+  transform: translateY(-100%);
+  transition: transform 0.3s;
+  &-nav {
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    position: absolute;
+    top: 134px;
+    right: calc(50% - 90px);
+    &-link {
+      width: -webkit-fit-content;
+      width: -moz-fit-content;
+      width: fit-content;
+      font-family: Noto Sans JP;
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 24px;
+      letter-spacing: 0.03em;
+      color: #2D2D32;
+      position: relative;
+      transition: color 0.3s;
+      &::after {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #64629d;
+        border-radius: 1px;
+        top: 50%;
+        transform: translateY(-50%) rotate(-45deg);
+        left: -36.72px;
+        pointer-events: none;
+        transition: background-color 0.3s;
+      }
+      &:hover{
+        color: rgba($color: #2D2D32, $alpha: 0.7);
+        &::after{
+          background-color: #64629d;
+        }
+      }
+    }
+  }
+  &-btnArea {
+    margin-top: 476px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    .btn{
+      transition: background-color 0.3s, color 0.3s, border 0.3s;
+    }
+  }
+
+  &.active {
+    transform: translateY(0);
+  }
+}
+
+// fv--------------------------------
+.fv {
+  background-color: #edecfc;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  @include mq(l) {
+    padding-top: 33px;
+    padding-bottom: 32px;
+    overflow-x: hidden;
+  }
+  @include mq(xl) {
+    padding-top: 33px;
+    padding-bottom: 32px;
+    overflow-x: hidden;
+  }
+  .inner {
+    // max-width: calc(335px + 20px * 2);
+    // margin-left: auto;
+    // margin-right: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    @include mq(m) {
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+    @include mq(l) {
+      max-width: 1440px;
+      max-width: calc(1440px - 120px - 133px + 60px * 2);
+      padding-left: 60px;
+      padding-right: 60px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+      left: -6.5px;
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+    }
+    @include mq(xl) {
+      max-width: 1440px;
+      max-width: calc(1440px - 120px - 133px + 60px * 2);
+      // padding-left: 120px;
+      // padding-right: 133px;
+      padding-left: 60px;
+      padding-right: 60px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+      left: -6.5px;
+      display: flex;
+      gap: 16px;
+    }
+    .fv-textArea {
+      position: relative;
+      z-index: 1;
+      @include mq(l) {
+        margin-top: 46px;
+        width: -webkit-fit-content;
+        width: -moz-fit-content;
+        width: fit-content;
+        align-self: flex-start;
+        position: relative;
+      }
+      @include mq(xl) {
+        margin-top: 86px;
+        width: -webkit-fit-content;
+        width: -moz-fit-content;
+        width: fit-content;
+        flex-shrink: 0;
+      }
+      .fv-catch {
+        font-family: Noto Sans JP;
+        font-size: min(30px, 8vw);
+        font-weight: 700;
+        line-height: calc(48 / 30);
+        letter-spacing: 0em;
+        color: #2d2d32;
+        margin-bottom: 16px;
+        @include mq(m) {
+          font-size: 43px;
+          line-height: 87px;
+          line-height: calc(87 / 60);
+          letter-spacing: 0em;
+          width: -webkit-fit-content;
+          width: -moz-fit-content;
+          width: fit-content;
+          margin-bottom: 16px;
+        }
+        @include mq(l) {
+          font-size: min(45px, 3.9vw);
+          line-height: 87px;
+          line-height: calc(87 / 60);
+          letter-spacing: 0em;
+          width: -webkit-fit-content;
+          width: -moz-fit-content;
+          width: fit-content;
+          margin-bottom: 20px;
+        }
+        @include mq(xl) {
+          font-size: 60px;
+          line-height: 87px;
+          line-height: calc(87 / 60);
+          letter-spacing: 0em;
+          width: -webkit-fit-content;
+          width: -moz-fit-content;
+          width: fit-content;
+          margin-bottom: 24px;
+        }
+      }
+      .fv-description {
+        font-family: Noto Sans JP;
+        font-size: min(16px, 4.5vw);
+        font-weight: 400;
+        line-height: calc(26 / 16);
+        letter-spacing: 0em;
+        color: #2d2d32;
+        @include mq(m) {
+          font-size: 17px;
+        }
+        @include mq(l) {
+          font-family: Noto Sans JP;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: calc(32 / 18);
+          letter-spacing: 0em;
+          width: -webkit-fit-content;
+          width: -moz-fit-content;
+          width: fit-content;
+          max-width: 493px;
+          // margin-bottom: 25px;
+        }
+        @include mq(xl) {
+          font-family: Noto Sans JP;
+          font-size: 18px;
+          font-weight: 400;
+          line-height: calc(32 / 18);
+          letter-spacing: 0em;
+          width: -webkit-fit-content;
+          width: -moz-fit-content;
+          width: fit-content;
+          margin-bottom: 33px;
+        }
+      }
+    }
+    .fv-img {
+      //   width: 305px;
+      width: calc(305px / 335px * 100%);
+      max-width: 450px;
+      position: relative;
+      z-index: 50;
+      margin-top: -26px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-right: 0px;
+      position: relative;
+      left: -4px;
+      z-index: 50;
+      @include mq(m) {
+        max-width: 400px;
+      }
+      @include mq(l) {
+        margin-top: 0;
+        position: static;
+        max-width: none;
+        width: 370px;
+        margin-left: 0;
+        margin-right: 0;
+        align-self: center;
+        flex-shrink: 0;
+      }
+      @include mq(xl) {
+        margin-top: 0;
+        position: static;
+        max-width: none;
+        width: 515px;
+        margin-left: 0;
+        margin-right: 0;
+      }
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .fv-btnArea {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+      position: relative;
+      z-index: 100;
+      margin-top: -15px;
+      @include mq(l) {
+        width: -webkit-fit-content;
+        width: -moz-fit-content;
+        width: fit-content;
+        flex-direction: row;
+        gap: 20px;
+        margin-top: 0;
+        position: absolute;
+        bottom: -83px;
+      }
+      @include mq(xl) {
+        width: -webkit-fit-content;
+        width: -moz-fit-content;
+        width: fit-content;
+        flex-direction: row;
+        gap: 37px;
+        margin-top: 0;
+        // position: absolute;
+        // bottom: 81px;
+      }
+    }
+  }
+}
+
+// about--------------------------------------
+.about {
+  padding-top: 80px;
+  padding-bottom: 60px;
+  @include mq(l) {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+  @include mq(xl) {
+    padding-top: 100px;
+    padding-bottom: 100px;
+  }
+  .inner {
+    padding-left: 20px;
+    padding-right: 20px;
+    .about-description-container {
+      margin-top: 24px;
+      margin-bottom: 24px;
+      @include mq(l) {
+        margin-top: 29px;
+        margin-bottom: 30px;
+      }
+      @include mq(xl) {
+        margin-top: 29px;
+        margin-bottom: 40px;
+      }
+      .about-description {
+        font-family: Noto Sans JP;
+        font-size: min(16px, 4.3vw);
+        font-weight: 400;
+        line-height: calc(26 / 16);
+        letter-spacing: 0em;
+        text-align: center;
+        @include mq(l) {
+          font-size: min(17px, 1.8vw);
+          line-height: calc(32 / 18);
+        }
+        @include mq(xl) {
+          font-size: 18px;
+          line-height: calc(32 / 18);
+        }
+        .bold {
+          font-weight: 700;
+        }
+        &:not(:first-child) {
+          margin-top: 25px;
+          @include mq(l) {
+            margin-top: 22px;
+          }
+          @include mq(xl) {
+            margin-top: 32px;
+          }
+        }
+      }
+    }
+  }
+}
+
+// feature-------------------------------------------
+.feature {
+  padding-top: 60px;
+  padding-bottom: 60px;
+  background-color: #f9f9f9;
+  overflow-x: hidden;
+  @include mq(l) {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+  @include mq(xl) {
+    padding-top: 100px;
+    padding-bottom: 100px;
+  }
+  .inner {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+    @include mq(l) {
+      margin-top: 102px;
+      max-width: 1188px;
+      max-width: calc(1188px + 60px * 2);
+      padding-left: 60px;
+      padding-right: 60px;
+      margin-left: auto;
+      margin-right: auto;
+      gap: 0;
+    }
+    @include mq(xl) {
+      margin-top: 102px;
+      max-width: 1188px;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 1188px;
+      max-width: calc(1188px + 60px * 2);
+      padding-left: 60px;
+      padding-right: 60px;
+      gap: 0;
+      position: relative;
+      left: -6px;
+    }
+    .feature-item {
+      @include mq(l) {
+        position: relative;
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+      }
+      @include mq(xl) {
+        position: relative;
+        display: flex;
+        flex-direction: row-reverse;
+      }
+      .feature-item-img {
+        max-width: 400px;
+        width: calc(280px / 375px * 100%);
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: -75px;
+        position: relative;
+        z-index: 10;
+        @include mq(l) {
+          margin-bottom: 0;
+          position: static;
+          width: 520px;
+          width: calc(520px / 1180px * 100%);
+          width: 40%;
+          flex-shrink: 0;
+          max-width: 520px;
+          margin-left: -65px;
+          align-self: center;
+        }
+        @include mq(xl) {
+          margin-bottom: 0;
+          position: static;
+          width: 520px;
+          width: calc(520px / 1180px * 100%);
+          flex-shrink: 0;
+          max-width: 520px;
+          margin-left: -95px;
+          align-self: flex-start;
+        }
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .feature-item-contents {
+        background-color: #ffffff;
+        padding-top: 44px;
+        padding-bottom: 42px;
+        position: relative;
+        padding-left: 20px;
+        border-radius: 16px;
+        display: flex;
+        flex-direction: column;
+        @include mq(l) {
+          max-width: 742px;
+          flex-direction: row;
+          gap: 18px;
+          padding-top: 65px;
+          padding-bottom: 64px;
+          padding-left: 40px;
+        }
+        @include mq(xl) {
+          max-width: 742px;
+          flex-direction: row;
+          gap: 18px;
+          padding-top: 65px;
+          padding-bottom: 64px;
+          padding-left: 40px;
+          align-self: flex-end;
+        }
+        .feature-item-contents-number {
+          width: -webkit-fit-content;
+          width: -moz-fit-content;
+          width: fit-content;
+          font-family: Jost;
+          font-size: 42px;
+          font-weight: 700;
+          line-height: calc(42 / 42);
+          letter-spacing: 0em;
+          color: #64629d;
+          margin-bottom: 5px;
+          @include mq(l) {
+            font-size: 60px;
+            font-weight: 700;
+            line-height: 96px;
+            line-height: calc(96 / 72);
+            align-self: flex-start;
+          }
+          @include mq(xl) {
+            font-size: 72px;
+            font-weight: 700;
+            line-height: 96px;
+            line-height: calc(96 / 72);
+            align-self: flex-start;
+          }
+        }
+        .feature-item-contents-textArea {
+          .feature-item-contents-title {
+            font-family: Noto Sans JP;
+            font-size: 22px;
+            font-weight: 700;
+            line-height: calc(32 / 22);
+            letter-spacing: 0em;
+            color: #2d2d32;
+            margin-bottom: 8px;
+            @include mq(l) {
+              font-size: min(30px, 2.9vw);
+              line-height: calc(52 / 36);
+              margin-bottom: 17px;
+              padding-right: 40px;
+            }
+            @include mq(xl) {
+              font-size: 36px;
+              line-height: calc(52 / 36);
+              margin-bottom: 17px;
+            }
+          }
+          .feature-item-contents-description {
+            font-family: Noto Sans JP;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: calc(22 / 14);
+            letter-spacing: 0em;
+            color: #2d2d32;
+            padding-right: 22px;
+            @include mq(l) {
+              font-size: 16px;
+              line-height: calc(29 / 16);
+              padding-right: 84px;
+            }
+            @include mq(xl) {
+              font-size: 16px;
+              line-height: calc(29 / 16);
+              padding-right: 124px;
+            }
+          }
+        }
+      }
+      &:nth-child(2) {
+        flex-direction: row;
+        @include mq(l) {
+          margin-top: 103px;
+        }
+        @include mq(xl) {
+          margin-top: 153px;
+        }
+        .feature-item-img {
+          margin-bottom: -82px;
+          @include mq(l) {
+            margin-bottom: 0;
+            margin-left: 0;
+            position: static;
+            margin-left: 0px;
+            margin-right: -50px;
+            position: static;
+            align-self: center;
+          }
+          @include mq(xl) {
+            margin-bottom: 0;
+            margin-left: 0;
+            position: static;
+            margin-left: 0px;
+            margin-right: -80px;
+            margin-top: 25px;
+            position: static;
+          }
+        }
+        .feature-item-contents {
+          padding-top: 40px;
+          @include mq(l) {
+            margin-top: 0;
+            padding-top: 65px;
+            padding-bottom: 65px;
+            margin-left: auto;
+          }
+          @include mq(xl) {
+            padding-right: 19px;
+            margin-top: 0;
+            padding-top: 65px;
+            padding-bottom: 65px;
+            margin-left: auto;
+            align-self: flex-start;
+          }
+          .feature-item-contents-number {
+            margin-bottom: 0;
+          }
+          .feature-item-contents-textArea {
+            @include mq(l) {
+              margin-left: -5px;
+            }
+            @include mq(xl) {
+              margin-left: -5px;
+            }
+          }
+          .feature-item-contents-title {
+          }
+          .feature-item-contents-description {
+            padding-right: 20px;
+            @include mq(l) {
+              padding-right: 84px;
+            }
+            @include mq(xl) {
+              padding-right: 115px;
+            }
+          }
+        }
+      }
+      &:nth-child(3) {
+        @include mq(l) {
+          margin-top: 85px;
+        }
+        @include mq(xl) {
+          margin-top: -70px;
+        }
+        .feature-item-img {
+          margin-bottom: -75px;
+          @include mq(l) {
+            margin-bottom: 0;
+            margin-left: 0;
+          }
+          @include mq(xl) {
+            margin-bottom: 0;
+            margin-left: 0;
+          }
+        }
+        .feature-item-contents {
+          padding-top: 40px;
+          padding-bottom: 40px;
+          @include mq(l) {
+            padding-top: 65px;
+            padding-bottom: 64px;
+            margin-right: -73px;
+          }
+          @include mq(xl) {
+            padding-top: 65px;
+            padding-bottom: 64px;
+            margin-right: -73px;
+          }
+          .feature-item-contents-number {
+            margin-bottom: 2px;
+          }
+          .feature-item-contents-textArea {
+            @include mq(l) {
+              margin-left: -2px;
+            }
+            @include mq(xl) {
+              margin-left: -2px;
+            }
+            .feature-item-contents-title {
+              font-size: 24px;
+              line-height: calc(35 / 24);
+              @include mq(l) {
+                font-size: min(30px, 2.9vw);
+                line-height: calc(52 / 36);
+              }
+              @include mq(xl) {
+                font-size: 36px;
+                line-height: calc(52 / 36);
+              }
+            }
+            .feature-item-contents-description {
+              padding-right: 20px;
+              @include mq(l) {
+                padding-right: 84px;
+              }
+              @include mq(xl) {
+                padding-right: 124px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// cta--------------------------------------------
+.cta {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #2d2d32;
+  @include mq(l) {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+  @include mq(xl) {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+  &-text {
+    color: #ffffff;
+    font-family: Noto Sans JP;
+    font-size: min(18px, 5.2vw);
+    font-weight: 700;
+    line-height: calc(29 / 18);
+    letter-spacing: 0.02em;
+    text-align: center;
+    margin-bottom: 24px;
+    @include mq(l) {
+      font-size: 33px;
+      line-height: calc(52 / 36);
+      margin-bottom: 32px;
+    }
+    @include mq(xl) {
+      font-size: 36px;
+      line-height: calc(52 / 36);
+      margin-bottom: 32px;
+    }
+  }
+}
+
+// users-------------------------------------
+.users {
+  padding-top: 60px;
+  padding-bottom: 60px;
+  @include mq(l) {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+  @include mq(xl) {
+    padding-top: 100px;
+    padding-bottom: 100px;
+  }
+  .inner {
+    padding-left: 20px;
+    padding-right: 20px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    @include mq(l) {
+      max-width: calc(822px + 80px * 2);
+      padding-left: 80px;
+      padding-right: 80px;
+      // padding-left: 234px;
+      // padding-right: 234px;
+    }
+    @include mq(xl) {
+      max-width: calc(972px + 234px * 2);
+      max-width: 972px;
+      padding-left: 0;
+      padding-right: 0;
+      // padding-left: 234px;
+      // padding-right: 234px;
+    }
+    .users-container {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      -moz-column-gap: 11px;
+      column-gap: 11px;
+      row-gap: 12.5px;
+      @include mq(l) {
+        margin-top: 40px;
+        -moz-column-gap: 25px;
+        column-gap: 25px;
+        row-gap: 35px;
+      }
+      @include mq(xl) {
+        margin-top: 40px;
+        -moz-column-gap: 40px;
+        column-gap: 40px;
+        row-gap: 50px;
+      }
+      .users-item {
+        width: 100%;
+        height: 100%;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
+}
+
+// flow----------------------------------------
+.flow {
+  padding-top: 60px;
+  padding-bottom: 60px;
+  background-color: #f9f9f9;
+  overflow-x: hidden;
+  @include mq(l) {
+    padding-top: 80px;
+    padding-bottom: 60px;
+  }
+  @include mq(xl) {
+    padding-top: 100px;
+    padding-bottom: 80px;
+  }
+  .inner {
+    margin-top: 64px;
+    padding-left: 20px;
+    padding-right: 20px;
+    max-width: calc(650px + 20px * 2);
+    margin-left: auto;
+    margin-right: auto;
+    @include mq(l) {
+      margin-top: 55px;
+      max-width: 1150px;
+      padding-left: 60px;
+      padding-right: 60px;
+      // padding-left: 192px;
+      // padding-right: 178px;
+      position: relative;
+      left: 7px;
+    }
+    @include mq(xl) {
+      margin-top: 55px;
+      max-width: 1440px;
+      max-width: calc(1440px - 192px - 178px);
+      margin-left: auto;
+      margin-right: auto;
+      // padding-left: 192px;
+      // padding-right: 178px;
+      padding-left: 0;
+      padding-right: 0;
+      position: relative;
+      left: 7px;
+    }
+    .flow-container {
+      @include mq(l) {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+      }
+      @include mq(xl) {
+        display: flex;
+        align-items: flex-start;
+      }
+      .flow-item {
+        position: relative;
+        @include mq(l) {
+          width: calc(280px / 1070px * 100%);
+          // width: calc(280px / 1440px * 100%);
+        }
+        @include mq(xl) {
+          width: calc(280px / 1070px * 100%);
+          // width: calc(280px / 1440px * 100%);
+        }
+        &:nth-child(3) {
+          margin-top: 84px;
+          @include mq(l) {
+            margin-top: 0;
+          }
+          @include mq(xl) {
+            margin-top: 0;
+          }
+          .flow-item-number {
+            top: -30px;
+            @include mq(l) {
+              top: -15px;
+              left: -17px;
+            }
+            @include mq(xl) {
+              top: -15px;
+              left: -17px;
+            }
+          }
+        }
+        &:nth-child(5) {
+          margin-top: 90px;
+          @include mq(l) {
+            margin-top: 0;
+          }
+          @include mq(xl) {
+            margin-top: 0;
+          }
+          .flow-item-number {
+            top: -30px;
+            @include mq(l) {
+              top: -15px;
+              left: -19px;
+            }
+            @include mq(xl) {
+              top: -15px;
+              left: -19px;
+            }
+          }
+          .flow-item-title {
+            margin-bottom: 16px;
+            @include mq(l) {
+              margin-bottom: 8px;
+            }
+            @include mq(xl) {
+              margin-bottom: 8px;
+            }
+          }
+        }
+        .flow-item-number {
+          position: absolute;
+          top: -24px;
+          left: 0;
+          color: #64629d;
+          font-family: Jost;
+          font-size: 48px;
+          font-weight: 700;
+          line-height: 1;
+          letter-spacing: 0em;
+          @include mq(l) {
+            top: -15px;
+            left: -15px;
+          }
+          @include mq(xl) {
+            top: -15px;
+            left: -15px;
+          }
+        }
+        .flow-item-imgArea {
+          padding-top: 22.5px;
+          padding-bottom: 20px;
+          padding-left: 68px;
+          padding-right: 68px;
+          border-radius: 30px;
+          background-color: #edecfc;
+          @include mq(l) {
+            padding-top: 21px;
+            padding-left: 40px;
+            padding-right: 41px;
+            padding-bottom: 21.7px;
+          }
+          @include mq(xl) {
+            padding-top: 21px;
+            padding-left: 40px;
+            padding-right: 41px;
+            padding-bottom: 21.7px;
+          }
+          .flow-item-img {
+            width: 100%;
+            img {
+              width: 100%;
+              height: 100%;
+            }
+          }
+        }
+        .flow-item-title {
+          color: #2d2d32;
+          font-family: Noto Sans JP;
+          font-size: 20px;
+          font-weight: 700;
+          line-height: 20px;
+          letter-spacing: 0em;
+          text-align: center;
+          margin-top: 16px;
+          margin-bottom: 8px;
+          @include mq(l) {
+            font-size: min(22px, 2.26vw);
+            line-height: calc(35 / 24);
+          }
+          @include mq(xl) {
+            font-size: 24px;
+            line-height: calc(35 / 24);
+          }
+        }
+        .flow-item-description {
+          color: #2d2d32;
+          font-family: Noto Sans JP;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 29px;
+          letter-spacing: 0em;
+          @include mq(l) {
+          }
+        }
+      }
+      .flow-item-arrow {
+        width: 29px;
+        height: 64px;
+        margin-left: 44px;
+        margin-right: 42px;
+        margin-top: 64px;
+        @include mq(l) {
+          margin-left: 29px;
+          margin-right: 27px;
+          aspect-ratio: 29 / 64;
+          width: 22px;
+        }
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
+}
+
+// price-----------------------------------------
+.price {
+  padding-top: 60px;
+  padding-bottom: 60px;
+  @include mq(l) {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+  @include mq(xl) {
+    padding-top: 100px;
+    padding-bottom: 100px;
+  }
+  .inner {
+    overflow-x: scroll;
+    padding-left: 20px;
+    padding-right: 20px;
+    @include mq(l) {
+      overflow-x: scroll;
+      max-width: 1140px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 60px;
+      padding-right: 60px;
+    }
+    @include mq(xl) {
+      overflow: visible;
+      max-width: 1020px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .price-contents {
+      @include mq(m) {
+        max-width: 727px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .price-contents-top {
+        display: flex;
+        align-items: flex-end;
+        margin-top: 40px;
+        margin-left: 151px;
+        justify-content: flex-end;
+        min-width: 576px;
+        @include mq(l) {
+          margin-top: 68px;
+          margin-left: 0;
+          width: 1020px;
+        }
+        @include mq(xl) {
+          margin-top: 68px;
+          margin-left: 0;
+        }
+        .price-plan {
+          width: 180px;
+          flex-shrink: 0;
+          padding-top: 28px;
+          padding-bottom: 28px;
+          background-color: #2d2d32;
+          @include mq(l) {
+            width: 260px;
+            padding-top: 47px;
+            padding-bottom: 41px;
+          }
+          @include mq(xl) {
+            width: 260px;
+            padding-top: 47px;
+            padding-bottom: 41px;
+          }
+          &-name {
+            font-family: Noto Sans JP;
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 29px;
+            letter-spacing: 0em;
+            color: #ffffff;
+            text-align: center;
+            @include mq(l) {
+              font-size: 24px;
+              line-height: 35px;
+            }
+            @include mq(xl) {
+              font-size: 24px;
+              line-height: 35px;
+            }
+          }
+          &-price {
+            font-family: Noto Sans JP;
+            font-size: 30px;
+            font-weight: 700;
+            line-height: 43px;
+            letter-spacing: 0em;
+            text-align: center;
+            color: #ffffff;
+            margin-top: 11px;
+            margin-bottom: 19px;
+            @include mq(l) {
+              font-size: 36px;
+              line-height: 52px;
+              margin-top: 17px;
+              margin-bottom: 28px;
+            }
+            @include mq(xl) {
+              font-size: 36px;
+              line-height: 52px;
+              margin-top: 17px;
+              margin-bottom: 28px;
+            }
+            .front {
+              font-size: 14px;
+              font-weight: 700;
+              line-height: 20px;
+              letter-spacing: 0em;
+              text-align: center;
+              @include mq(l) {
+                font-size: 20px;
+                line-height: 29px;
+              }
+              @include mq(xl) {
+                font-size: 20px;
+                line-height: 29px;
+              }
+            }
+            .back {
+              font-size: 12px;
+              font-weight: 700;
+              line-height: 17px;
+              letter-spacing: 0em;
+              text-align: center;
+              @include mq(l) {
+                font-size: 18px;
+                line-height: 26px;
+              }
+              @include mq(xl) {
+                font-size: 18px;
+                line-height: 26px;
+              }
+            }
+          }
+          &:nth-child(2) {
+            width: 216px;
+            padding-top: 54px;
+            padding-bottom: 28px;
+            background-color: #64629d;
+            @include mq(l) {
+              width: 260px;
+              padding-top: 58px;
+              padding-bottom: 41px;
+            }
+            @include mq(xl) {
+              width: 260px;
+              padding-top: 58px;
+              padding-bottom: 41px;
+            }
+            .price-plan-name {
+              font-size: 24px;
+              font-weight: 700;
+              line-height: 35px;
+              @include mq(l) {
+                font-size: 28px;
+                line-height: 41px;
+              }
+              @include mq(xl) {
+                font-size: 28px;
+                line-height: 41px;
+              }
+            }
+            .price-plan-price {
+              font-size: 36px;
+              font-weight: 700;
+              line-height: 52px;
+              margin-top: 2px;
+              margin-bottom: 19px;
+              @include mq(l) {
+                font-size: 42px;
+                line-height: 61px;
+                margin-top: 7px;
+                margin-bottom: 28px;
+              }
+              @include mq(xl) {
+                font-size: 42px;
+                line-height: 61px;
+                margin-top: 7px;
+                margin-bottom: 28px;
+              }
+              .front {
+                font-size: 20px;
+                font-weight: 700;
+
+                @include mq(l) {
+                  font-size: 26px;
+                  line-height: 38px;
+                }
+                @include mq(xl) {
+                  font-size: 26px;
+                  line-height: 38px;
+                }
+              }
+              .back {
+                font-size: 18px;
+                font-weight: 700;
+                @include mq(l) {
+                  font-size: 24px;
+                  line-height: 35px;
+                }
+                @include mq(xl) {
+                  font-size: 24px;
+                  line-height: 35px;
+                }
+              }
+            }
+          }
+          &:last-child {
+          }
+        }
+      }
+      .price-table {
+        min-width: 727px;
+        width: 100%;
+        margin-left: auto;
+        @include mq(l) {
+          min-width: auto;
+          width: 1020px;
+        }
+        @include mq(xl) {
+          min-width: auto;
+          width: 1020px;
+        }
+        &-row {
+          height: 42px;
+          @include mq(l) {
+            height: 60px;
+          }
+          @include mq(xl) {
+            height: 60px;
+          }
+          th {
+            min-width: 151px;
+            padding-left: 18px;
+            vertical-align: middle;
+            font-family: Noto Sans JP;
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 15px;
+            letter-spacing: 0em;
+            color: #2d2d32;
+            @include mq(l) {
+              min-width: auto;
+              padding-left: 32px;
+              width: 241px;
+              font-size: 22px;
+              line-height: 22px;
+            }
+            @include mq(xl) {
+              min-width: auto;
+              padding-left: 32px;
+              width: 241px;
+              font-size: 22px;
+              line-height: 22px;
+            }
+          }
+          td {
+            width: 180px;
+            text-align: center;
+            vertical-align: middle;
+            font-family: Noto Sans JP;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 14px;
+            letter-spacing: 0em;
+            color: #2d2d32;
+            @include mq(l) {
+              width: 260px;
+              font-size: 18px;
+              line-height: 18px;
+            }
+            @include mq(xl) {
+              width: 260px;
+              font-size: 18px;
+              line-height: 18px;
+            }
+            &:nth-of-type(2) {
+              width: 216px;
+              font-family: Noto Sans JP;
+              font-size: 20px;
+              font-weight: 700;
+              line-height: 20px;
+              letter-spacing: 0em;
+              color: #2d2d32;
+              @include mq(l) {
+                width: 260px;
+                font-size: 24px;
+                line-height: 18px;
+              }
+              @include mq(xl) {
+                width: 260px;
+                font-size: 24px;
+                line-height: 18px;
+              }
+            }
+          }
+          &:nth-child(odd) {
+            background-color: #edecfc;
+          }
+        }
+      }
+      .price-contents-bottom {
+        display: flex;
+        gap: 32px;
+        margin-left: 158px;
+        margin-top: 9px;
+        padding-bottom: 9px;
+        justify-content: flex-end;
+        min-width: 562px;
+        @include mq(l) {
+          gap: 25px;
+          padding-bottom: 15px;
+          margin-top: 16px;
+          margin-left: auto;
+          width: 1020px;
+          margin-right: 13px;
+        }
+        @include mq(xl) {
+          gap: 25px;
+          padding-bottom: 15px;
+          margin-top: 16px;
+          max-width: -webkit-fit-content;
+          max-width: -moz-fit-content;
+          max-width: fit-content;
+          margin-left: auto;
+          margin-right: 13px;
+        }
+      }
+    }
+  }
+}
+
+// QA---------------------------------------------------------
+.QA {
+  padding-top: 60px;
+  padding-bottom: 60px;
+  background-color: #f9f9f9;
+  @include mq(l) {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+  @include mq(xl) {
+    padding-top: 100px;
+    padding-bottom: 100px;
+  }
+  .inner {
+    max-width: 690px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    @include mq(l) {
+      max-width: 930px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 100px;
+      padding-right: 100px;
+    }
+    @include mq(xl) {
+      max-width: 920px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .QA-container {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      @include mq(l) {
+        margin-top: 60px;
+      }
+      @include mq(xl) {
+        margin-top: 60px;
+      }
+      .QA-item {
+        .QA-Qarea {
+          background-color: #64629d;
+          padding-top: 10px;
+          padding-bottom: 8px;
+          padding-left: 15px;
+          padding-right: 10px;
+          border-radius: 4px;
+          display: flex;
+          gap: 15px;
+          margin-bottom: 16px;
+          @include mq(l) {
+            padding-top: 22px;
+            padding-bottom: 22px;
+            padding-left: 24px;
+            padding-right: 24px;
+            margin-bottom: 14px;
+            border-radius: 10px;
+          }
+          @include mq(xl) {
+            padding-top: 22px;
+            padding-bottom: 22px;
+            padding-left: 24px;
+            padding-right: 24px;
+            margin-bottom: 14px;
+            border-radius: 10px;
+          }
+          &-number {
+            align-self: flex-start;
+            color: #ffffff;
+            font-family: Noto Sans JP;
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 22px;
+            letter-spacing: 0em;
+            @include mq(l) {
+              margin-top: -4px;
+            }
+            @include mq(xl) {
+              margin-top: -4px;
+            }
+          }
+          &-title {
+            color: #ffffff;
+            font-family: Noto Sans JP;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 26px;
+            letter-spacing: 0em;
+            @include mq(l) {
+              font-size: 18px;
+              line-height: 18px;
+            }
+            @include mq(xl) {
+              font-size: 18px;
+              line-height: 18px;
+            }
+          }
+        }
+        .QA-Aarea {
+          padding-top: 12px;
+          padding-bottom: 12px;
+          padding-left: 15px;
+          padding-right: 16.04px;
+          border-radius: 4px;
+          background-color: #ffffff;
+          display: flex;
+          gap: 11px;
+          @include mq(l) {
+            gap: 16px;
+            padding-top: 21px;
+            padding-bottom: 22px;
+            padding-left: 25px;
+            padding-right: 25px;
+            border-radius: 10px;
+          }
+          @include mq(xl) {
+            gap: 16px;
+            padding-top: 21px;
+            padding-bottom: 22px;
+            padding-left: 25px;
+            padding-right: 25px;
+            border-radius: 10px;
+          }
+          &-number {
+            font-family: Noto Sans JP;
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 22px;
+            letter-spacing: 0em;
+            color: #2d2d32;
+            @include mq(l) {
+              margin-top: 2px;
+            }
+            @include mq(xl) {
+              margin-top: 2px;
+            }
+          }
+          &-title {
+            font-family: Noto Sans JP;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 25.6px;
+            letter-spacing: 0em;
+            color: #2d2d32;
+            @include mq(l) {
+              font-size: 18px;
+              line-height: 32.4px;
+            }
+            @include mq(xl) {
+              font-size: 18px;
+              line-height: 32.4px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// footer---------------------------------------
+.footer {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #000;
+  @include mq(l) {
+    padding-top: 27px;
+    padding-bottom: 27px;
+  }
+  @include mq(xl) {
+    padding-top: 27px;
+    padding-bottom: 27px;
+  }
+  .inner {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    @include mq(l) {
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+      max-width: calc(1187px + 60px * 2);
+      padding-left: 60px;
+      padding-right: 60px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+      right: 6.5px;
+    }
+    @include mq(xl) {
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+      max-width: calc(1187px + 60px * 2);
+      padding-left: 60px;
+      padding-right: 60px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+      right: 6.5px;
+    }
+    .footer-snsArea {
+      @include mq(l) {
+        align-self: flex-start;
+        margin-top: 20px;
+      }
+      @include mq(xl) {
+        align-self: flex-start;
+        margin-top: 20px;
+      }
+      .footer-snsArea-text {
+        font-family: Jost;
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 1;
+        letter-spacing: 0em;
+        color: #ffffff;
+        display: block;
+        text-align: center;
+        margin-bottom: 12px;
+        @include mq(l) {
+          text-align: left;
+        }
+        @include mq(xl) {
+          text-align: left;
+        }
+      }
+      .footer-snsArea-container {
+        display: flex;
+        justify-content: center;
+        gap: 18px;
+        @include mq(l) {
+          margin-right: 16px;
+        }
+        @include mq(xl) {
+          margin-right: 16px;
+        }
+        .footer-snsArea-img {
+          width: 24px;
+          height: 24px;
+          transition: opacity 0.3s;
+          svg {
+            width: 100%;
+            height: 100%;
+          }
+          &:hover{
+            opacity: 0.7;
+          }
+        }
+      }
+    }
+    .footer-contents {
+      @include mq(l) {
+        margin-right: auto;
+      }
+      @include mq(xl) {
+        margin-right: auto;
+      }
+      .footer-logo {
+        width: 69px;
+        height: 24px;
+        margin-bottom: 14px;
+        margin-left: auto;
+        margin-right: auto;
+        @include mq(l) {
+          margin-left: 0;
+          margin-right: 0;
+          margin-bottom: 19px;
+        }
+        @include mq(xl) {
+          margin-left: 0;
+          margin-right: 0;
+          margin-bottom: 19px;
+        }
+        img {
+          width: 100%;
+          height: 100%;
+          -o-object-fit: contain;
+          object-fit: contain;
+        }
+      }
+      .footer-contents-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-bottom: 28px;
+        @include mq(l) {
+          flex-direction: row;
+          margin-bottom: 19px;
+        }
+        @include mq(xl) {
+          flex-direction: row;
+          margin-bottom: 19px;
+        }
+        &-link {
+          color: #ffffff;
+          font-family: Noto Sans JP;
+          font-size: 14px;
+          font-weight: 700;
+          line-height: 14px;
+          letter-spacing: 0.03em;
+          text-indent: 0.03em;
+          text-align: center;
+          position: relative;
+          @include mq(l) {
+            font-size: 14px;
+            letter-spacing: 0.03em;
+          }
+          @include mq(xl) {
+            font-size: 14px;
+            letter-spacing: 0.03em;
+          }
+
+          &::after {
+            content: "";
+            width: 80%;
+            height: 1.35px;
+            background-color: #fff;
+            position: absolute;
+            bottom: -8.1px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+          }
+          &:hover {
+            &::after {
+              opacity: 1;
+            }
+          }
+        }
+      }
+      .footer-contents-copyLight {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        @include mq(l) {
+          flex-direction: row;
+          gap: 14px;
+        }
+        @include mq(xl) {
+          flex-direction: row;
+          gap: 14px;
+        }
+        span {
+          font-family: Noto Sans JP;
+          font-size: 10px;
+          font-weight: 400;
+          line-height: 10px;
+          letter-spacing: 0.03em;
+          text-indent: 0.03em;
+          color: #fff;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
